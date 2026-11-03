@@ -1,0 +1,30 @@
+# EN: API image. Monorepo root is the build context; TS runs via tsx. Non-root user, no baked secrets.
+# ES: Imagen de la API. El contexto es la raíz del monorepo; TS corre con tsx. Usuario sin privilegios, sin secretos horneados.
+FROM node:20-bookworm-slim AS deps
+WORKDIR /app
+# EN: Manifests first for layer caching. / ES: Manifiestos primero para cachear capas.
+COPY package.json package-lock.json tsconfig.base.json ./
+COPY 02-identity/package.json 02-identity/
+COPY 03-game-services/package.json 03-game-services/
+COPY 04-rewards/package.json 04-rewards/
+COPY 05-api/package.json 05-api/
+COPY 06-web3/package.json 06-web3/
+COPY 07-web/package.json 07-web/
+COPY 08-data-analytics/package.json 08-data-analytics/
+RUN npm ci --workspace 05-api --include-workspace-root --no-audit --no-fund
+
+FROM node:20-bookworm-slim
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json tsconfig.base.json ./
+COPY 02-identity 02-identity
+COPY 03-game-services 03-game-services
+COPY 04-rewards 04-rewards
+COPY 05-api 05-api
+COPY 06-web3/package.json 06-web3/
+COPY 06-web3/src 06-web3/src
+COPY 08-data-analytics 08-data-analytics
+USER node
+EXPOSE 4100
+CMD ["node", "--import", "tsx", "05-api/src/server.ts"]

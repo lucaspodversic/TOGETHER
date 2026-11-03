@@ -1,0 +1,36 @@
+/* EN: Tailwind layers + base styles; focus rings stay visible for keyboard users. */
+/* ES: Capas de Tailwind + estilos base; el foco queda visible para usuarios de teclado. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-[#0c0a17] text-slate-100 text-sm;
+}
+.panel {
+  @apply bg-panel border border-edge rounded-xl p-4;
+}
+.btn {
+  @apply px-3 py-1.5 rounded-lg font-medium disabled:opacity-50 bg-edge hover:bg-pop/30;
+}
+.btn-primary {
+  @apply px-4 py-2 rounded-lg font-semibold bg-pop text-black hover:bg-pop/80 disabled:opacity-50;
+}
+.input {
+  @apply w-full bg-[#0c0a17] border border-edge rounded-lg px-2 py-1.5 outline-none focus:border-zap;
+}
+/* EN: Always-visible keyboard focus (WCAG 2.4.7). / ES: Foco de teclado siempre visible (WCAG 2.4.7). */
+:focus-visible {
+  outline: 2px solid #36e2ff;
+  outline-offset: 2px;
+}
+/* EN: Respect reduced-motion preferences. / ES: Respetar la preferencia de movimiento reducido. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+.mono {
+  font-variant-numeric: tabular-nums;
+}

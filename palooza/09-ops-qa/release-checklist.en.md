@@ -1,0 +1,13 @@
+# Release checklist (EN)
+- [ ] `npm ci && npm run typecheck && npm test` green
+- [ ] `npm run build:web` green
+- [ ] `forge test --offline` green in 06-web3/contracts
+- [ ] Comment density gate ≥ 25% (`node 09-ops-qa/scripts/comment-density.mjs --min 25`)
+- [ ] `docker compose config -q` valid; every published port is `127.0.0.1:`
+- [ ] No secrets in the repo (`.env` ignored); SESSION_SECRET is ≥ 32 random chars
+- [ ] All regulated flags are OFF (`GET /v1/flags`)
+- [ ] Chain id is 31337 or 11155111 only
+- [ ] Accessibility smoke test: keyboard-only and screen reader on signup, play and profile
+- [ ] EN/ES copy reviewed
+- [ ] Runbooks reviewed; on-call owner named: `[OWNER]`
+- [ ] Limited-audience launch plan and rollback agreed (Milestone 5)

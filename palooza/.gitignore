@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+dist/
+cache/
+coverage/
+*.tsbuildinfo
+.env
+.env.local
+06-web3/contracts/out/
+06-web3/contracts/cache/
+06-web3/contracts/broadcast/

@@ -1,0 +1,18 @@
+{
+  "name": "palooza",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Palooza multi-game platform reference implementation / Implementación de referencia de la plataforma multi-juego Palooza",
+  "license": "MIT",
+  "workspaces": ["02-identity", "03-game-services", "04-rewards", "05-api", "06-web3", "07-web", "08-data-analytics"],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build:web": "npm run build -w 07-web",
+    "dev:api": "npm run dev -w 05-api",
+    "dev:web": "npm run dev -w 07-web",
+    "contracts:test": "cd 06-web3/contracts && forge test",
+    "analytics:funnel": "npm run funnel -w 08-data-analytics"
+  },
+  "engines": { "node": ">=20" }
+}

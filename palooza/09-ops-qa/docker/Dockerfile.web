@@ -1,0 +1,28 @@
+# EN: Web image (Next.js standalone). NEXT_PUBLIC_API_URL is inlined at build time (browser-facing URL).
+# ES: Imagen web (Next.js standalone). NEXT_PUBLIC_API_URL se incrusta al compilar (URL que usa el navegador).
+FROM node:20-bookworm-slim AS build
+WORKDIR /app
+ARG NEXT_PUBLIC_API_URL=http://127.0.0.1:4100
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL NEXT_TELEMETRY_DISABLED=1
+COPY package.json package-lock.json tsconfig.base.json ./
+COPY 02-identity/package.json 02-identity/
+COPY 03-game-services/package.json 03-game-services/
+COPY 04-rewards/package.json 04-rewards/
+COPY 05-api/package.json 05-api/
+COPY 06-web3/package.json 06-web3/
+COPY 07-web/package.json 07-web/
+COPY 08-data-analytics/package.json 08-data-analytics/
+RUN npm ci --workspace 07-web --include-workspace-root --no-audit --no-fund
+COPY 03-game-services 03-game-services
+COPY 06-web3 06-web3
+COPY 07-web 07-web
+RUN npm run build -w 07-web
+
+FROM node:20-bookworm-slim
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
+WORKDIR /app
+COPY --from=build /app/07-web/.next/standalone ./
+COPY --from=build /app/07-web/.next/static ./07-web/.next/static
+USER node
+EXPOSE 3000
+CMD ["node", "07-web/server.js"]

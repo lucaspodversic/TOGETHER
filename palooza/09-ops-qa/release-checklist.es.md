@@ -1,0 +1,13 @@
+# Checklist de release (ES)
+- [ ] `npm ci && npm run typecheck && npm test` en verde
+- [ ] `npm run build:web` en verde
+- [ ] `forge test --offline` en verde en 06-web3/contracts
+- [ ] Densidad de comentarios ≥ 25%
+- [ ] `docker compose config -q` válido; todos los puertos publicados son `127.0.0.1:`
+- [ ] Sin secretos en el repo; SESSION_SECRET con ≥ 32 caracteres aleatorios
+- [ ] Todas las flags reguladas en OFF
+- [ ] Chain id solo 31337 u 11155111
+- [ ] Prueba rápida de accesibilidad con teclado y lector de pantalla
+- [ ] Textos EN/ES revisados
+- [ ] Runbooks revisados; responsable de guardia: `[RESPONSABLE]`
+- [ ] Plan de lanzamiento limitado y rollback acordados (Hito 5)
